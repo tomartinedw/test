@@ -1,0 +1,1342 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Me - Friendship Quiz</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --pink: #e9a9c6;
+    --pink2: #f8e5ef;
+    --purple: #b5a2db;
+    --text: #65566d;
+    --muted: #a998ad;
+    --white: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg,#fff1f5,#f0eaff,#fff6ed);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text);
+    padding: 25px 15px;
+}
+
+button, input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    width: 100%;
+    max-width: 560px;
+    min-height: 650px;
+    background: rgba(255,255,255,.94);
+    border: 1px solid white;
+    border-radius: 28px;
+    margin: auto;
+    padding: 32px;
+    box-shadow: 0 20px 65px rgba(132,95,143,.13);
+    position: relative;
+    overflow: hidden;
+}
+
+/* HEADER */
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #f4e8f0;
+    margin-bottom: 30px;
+}
+
+.brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    color: #bd82a9;
+    letter-spacing: 1px;
+}
+
+.brand span {
+    color: #b5a2db;
+}
+
+.top-icon {
+    color: #d79abb;
+    font-size: 22px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+    animation: appear .4s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* COMMON */
+
+.eyebrow {
+    color: #c38aab;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: clamp(34px,7vw,48px);
+    line-height: 1.2;
+    color: #9876a3;
+}
+
+h2 {
+    font-size: 29px;
+    color: #9876a3;
+}
+
+.description {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+    margin-top: 14px;
+}
+
+.big-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 35px;
+    background: linear-gradient(135deg,#fce2ee,#e9e2ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 47px;
+    margin: 25px auto;
+}
+
+.primary {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+    background: linear-gradient(100deg,#e7a6c5,#b8a2dc);
+    box-shadow: 0 7px 18px rgba(203,150,190,.22);
+    transition: .25s;
+    margin-top: 20px;
+}
+
+.primary:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.04);
+}
+
+.secondary {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ebd8e8;
+    border-radius: 14px;
+    background: white;
+    color: #a77fa9;
+    font-weight: 700;
+    margin-top: 10px;
+    transition: .2s;
+}
+
+.secondary:hover {
+    background: #fff3f8;
+}
+
+.input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ecdde9;
+    border-radius: 13px;
+    outline: none;
+    margin-top: 12px;
+    background: #fffafd;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.input:focus {
+    border-color: #d39bbb;
+}
+
+.divider {
+    height: 1px;
+    background: #f2e8f0;
+    margin: 25px 0;
+}
+
+.note {
+    text-align: center;
+    font-size: 10px;
+    color: #b7a6b9;
+    line-height: 1.8;
+    margin-top: 22px;
+}
+
+/* HOME */
+
+.home-content {
+    text-align: center;
+    padding: 20px 5px;
+}
+
+.home-buttons {
+    margin-top: 30px;
+}
+
+/* QUESTION CREATION */
+
+.step-info {
+    display: flex;
+    justify-content: space-between;
+    color: #b49bb6;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.progress {
+    width: 100%;
+    height: 7px;
+    background: #f3e9f2;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 27px;
+}
+
+.progress-inner {
+    height: 100%;
+    background: linear-gradient(90deg,#e8a7c5,#b7a2dd);
+    width: 0%;
+    transition: .3s;
+    border-radius: 20px;
+}
+
+.question-card {
+    background: #fff8fb;
+    border: 1px solid #f2e5ef;
+    border-radius: 19px;
+    padding: 22px;
+    margin: 18px 0;
+}
+
+.question-icon {
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+.question-text {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.6;
+    color: #745f7d;
+}
+
+.small-label {
+    font-size: 10px;
+    color: #b69eb6;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 20px 0 12px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    width: 100%;
+    border: 1px solid #eee1ed;
+    border-radius: 13px;
+    background: white;
+    padding: 14px;
+    color: #796982;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.option:hover {
+    background: #fff0f7;
+    border-color: #dfaaca;
+}
+
+.option.selected {
+    background: #f8e3ef;
+    border: 2px solid #d99abc;
+    color: #9c638d;
+}
+
+.navigation {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.navigation button {
+    flex: 1;
+}
+
+/* SHARE */
+
+.link-box {
+    background: #fff5fa;
+    border: 1px dashed #dca8c8;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 20px;
+    word-break: break-all;
+    font-size: 11px;
+    line-height: 1.8;
+    color: #9c789c;
+}
+
+.success {
+    background: #f0f8ef;
+    color: #6d9974;
+    padding: 13px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-top: 15px;
+    display: none;
+}
+
+/* PLAY QUIZ */
+
+.answer-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #eee2ed;
+    border-radius: 14px;
+    background: white;
+    color: #76667d;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+    transition: .2s;
+}
+
+.answer-option:hover {
+    border-color: #d9a1c1;
+    background: #fff4f9;
+}
+
+.answer-option.selected {
+    border: 2px solid #d59abd;
+    background: #f8e5f0;
+}
+
+.option-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background: #f8e9f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    color: #bc82a8;
+}
+
+/* RESULT */
+
+.result-card {
+    text-align: center;
+    padding: 25px 5px;
+}
+
+.result-icon {
+    font-size: 70px;
+    margin: 20px;
+}
+
+.score {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    color: #ce8fb4;
+    margin: 15px;
+}
+
+.score-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #ad9ab0;
+}
+
+.result-description {
+    color: #98869d;
+    font-size: 13px;
+    line-height: 2;
+    margin-top: 18px;
+}
+
+.result-detail {
+    text-align: left;
+    margin-top: 25px;
+    background: #fff7fa;
+    padding: 18px;
+    border-radius: 15px;
+}
+
+.detail-row {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0e6ef;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.detail-row:last-child {
+    border: none;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #c4afc3;
+    margin-top: 35px;
+}
+
+/* MOBILE */
+
+@media(max-width: 480px) {
+    .app {
+        padding: 23px 19px;
+        border-radius: 23px;
+    }
+
+    .brand {
+        font-size: 21px;
+    }
+
+    .question-card {
+        padding: 17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="top">
+        <div class="brand">dear <span>♡</span> me.</div>
+        <div class="top-icon">✧ ♡ ✧</div>
+    </div>
+
+    <!-- HOME -->
+
+    <section class="screen active" id="home">
+        <div class="home-content">
+
+            <div class="eyebrow">A LITTLE GAME FOR TWO</div>
+
+            <div class="big-icon">💌</div>
+
+            <h1>How Well<br>Do You Know Me?</h1>
+
+            <p class="description">
+                Bạn hiểu người ấy đến mức nào?<br>
+                Hãy tạo một bài test riêng và gửi cho họ
+                để cùng khám phá nhé.
+            </p>
+
+            <div class="home-buttons">
+                <button class="primary" onclick="goCreate()">
+                    ✦ CREATE MY QUIZ
+                </button>
+
+                <button class="secondary" onclick="goJoin()">
+                    ♡ I HAVE A LINK
+                </button>
+            </div>
+
+            <div class="note">
+                MADE WITH LOVE · DEAR ME QUIZ
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CREATE PROFILE -->
+
+    <section class="screen" id="profile">
+
+        <div class="eyebrow">STEP 01 · YOUR PROFILE</div>
+
+        <h2>Let's get to know you!</h2>
+
+        <p class="description">
+            Đầu tiên, hãy cho mọi người biết ai là người
+            đang tạo bài test này nhé.
+        </p>
+
+        <div class="big-icon">🎀</div>
+
+        <input class="input" id="ownerName"
+        placeholder="Tên hoặc nickname của bạn...">
+
+        <button class="primary" onclick="saveProfile()">
+            CONTINUE →
+        </button>
+
+        <button class="secondary" onclick="goHome()">
+            ← BACK
+        </button>
+
+    </section>
+
+
+    <!-- CREATE QUESTIONS -->
+
+    <section class="screen" id="create">
+
+        <div class="eyebrow">STEP 02 · YOUR ANSWERS</div>
+
+        <div class="step-info">
+            <span id="createStep">QUESTION 01</span>
+            <span id="createCount">01 / 08</span>
+        </div>
+
+        <div class="progress">
+            <div class="progress-inner" id="createProgress"></div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-icon" id="createIcon">🍓</div>
+            <div class="question-text" id="createQuestion"></div>
+        </div>
+
+        <div class="small-label">
+            CHỌN ĐÁP ÁN ĐÚNG VỀ BẠN
+        </div>
+
+        <div class="options" id="createOptions"></div>
+
+        <div class="navigation">
+            <button class="secondary" onclick="previousCreate()">
+                ← BACK
+            </button>
+            <button class="primary" id="nextCreate"
+            onclick="nextCreate()">
+                NEXT →
+            </button>
+        </div>
+
+        <p class="note">
+            Chọn câu trả lời đúng nhất về bản thân bạn nhé!
+        </p>
+
+    </section>
+
+
+    <!-- SHARE SCREEN -->
+
+    <section class="screen" id="share">
+
+        <div class="eyebrow">STEP 03 · YOUR PERSONAL LINK</div>
+
+        <div class="big-icon">🔗</div>
+
+        <h2>Your quiz is ready!</h2>
+
+        <p class="description">
+            Bài test của <b id="shareName"></b> đã được tạo.
+            Copy đường link bên dưới và gửi cho người bạn muốn thử thách!
+        </p>
+
+        <div class="link-box" id="shareLink"></div>
+
+        <button class="primary" onclick="copyLink()">
+            ▣ COPY MY LINK
+        </button>
+
+        <button class="secondary" onclick="nativeShare()">
+            ♡ SHARE WITH FRIENDS
+        </button>
+
+        <div class="success" id="copySuccess">
+            ✓ Đã copy link thành công!
+        </div>
+
+        <button class="secondary" onclick="goHome()">
+            BACK TO HOME
+        </button>
+
+        <p class="note">
+            Mỗi người tạo sẽ có một đường link riêng.
+        </p>
+
+    </section>
+
+
+    <!-- JOIN SCREEN -->
+
+    <section class="screen" id="join">
+
+        <div class="eyebrow">WELCOME TO THE QUIZ</div>
+
+        <div class="big-icon">🧸</div>
+
+        <h2 id="joinTitle">Someone sent you a quiz!</h2>
+
+        <p class="description">
+            Hãy nhập tên của bạn để bắt đầu thử thách
+            và xem bạn hiểu người tạo bài test đến đâu nhé.
+        </p>
+
+        <input class="input" id="guestName"
+        placeholder="Tên của bạn...">
+
+        <button class="primary" onclick="startPlay()">
+            START THE QUIZ →
+        </button>
+
+    </section>
+
+
+    <!-- PLAY SCREEN -->
+
+    <section class="screen" id="play">
+
+        <div class="eyebrow">LET'S SEE HOW WELL YOU KNOW THEM</div>
+
+        <div class="step-info">
+            <span id="playStep">QUESTION 01</span>
+            <span id="playCount">01 / 08</span>
+        </div>
+
+        <div class="progress">
+            <div class="progress-inner" id="playProgress"></div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-icon" id="playIcon">🍓</div>
+            <div class="question-text" id="playQuestion"></div>
+        </div>
+
+        <div class="small-label">
+            BẠN NGHĨ ĐÁP ÁN NÀO ĐÚNG?
+        </div>
+
+        <div class="options" id="playOptions"></div>
+
+        <button class="primary" id="nextPlay" onclick="nextPlay()">
+            NEXT QUESTION →
+        </button>
+
+        <p class="note">
+            GOOD LUCK! ♡
+        </p>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section class="screen" id="result">
+
+        <div class="result-card">
+
+            <div class="eyebrow">YOUR FINAL RESULT</div>
+
+            <div class="result-icon" id="resultIcon">💗</div>
+
+            <h2 id="resultTitle">You know me!</h2>
+
+            <div class="score" id="resultScore">0%</div>
+
+            <div class="score-label">UNDERSTANDING LEVEL</div>
+
+            <p class="result-description" id="resultDescription"></p>
+
+            <div class="result-detail" id="resultDetail"></div>
+
+            <button class="primary" onclick="restartPlay()">
+                ↻ TRY AGAIN
+            </button>
+
+            <button class="secondary" onclick="goHome()">
+                CREATE YOUR OWN QUIZ
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        DEAR ME · A LITTLE GAME FOR TWO ♡
+    </div>
+
+</div>
+
+
+<script>
+
+// ==================================
+// QUESTION DATABASE
+// ==================================
+
+const questions = [
+{
+    icon: "🍓",
+    text: "Món ăn yêu thích của mình là gì?",
+    options: [
+        "🍕 Pizza",
+        "🍜 Mì / Phở",
+        "🍣 Sushi",
+        "🍗 Gà rán"
+    ]
+},
+{
+    icon: "🌷",
+    text: "Màu sắc yêu thích của mình?",
+    options: [
+        "🖤 Đen",
+        "🤍 Trắng",
+        "🩷 Hồng",
+        "💙 Xanh"
+    ]
+},
+{
+    icon: "🌙",
+    text: "Mình thích thời điểm nào trong ngày?",
+    options: [
+        "🌅 Buổi sáng",
+        "☀️ Buổi trưa",
+        "🌇 Buổi chiều",
+        "🌙 Buổi tối"
+    ]
+},
+{
+    icon: "🎧",
+    text: "Khi buồn mình thường làm gì?",
+    options: [
+        "Nghe nhạc",
+        "Ngủ",
+        "Tâm sự với ai đó",
+        "Ở một mình"
+    ]
+},
+{
+    icon: "✈️",
+    text: "Địa điểm mình muốn đi nhất?",
+    options: [
+        "🇯🇵 Nhật Bản",
+        "🇰🇷 Hàn Quốc",
+        "🇫🇷 Paris",
+        "🏝️ Maldives"
+    ]
+},
+{
+    icon: "🎬",
+    text: "Mình thích thể loại phim nào?",
+    options: [
+        "💕 Tình cảm",
+        "👻 Kinh dị",
+        "😂 Hài",
+        "🔍 Trinh thám"
+    ]
+},
+{
+    icon: "🧸",
+    text: "Mình thuộc kiểu người nào?",
+    options: [
+        "Hướng nội",
+        "Hướng ngoại",
+        "Lúc này lúc kia",
+        "Khó đoán"
+    ]
+},
+{
+    icon: "💌",
+    text: "Điều mình trân trọng nhất ở một người?",
+    options: [
+        "Sự chân thành",
+        "Sự quan tâm",
+        "Sự hài hước",
+        "Sự thấu hiểu"
+    ]
+}
+];
+
+
+// ==================================
+// VARIABLES
+// ==================================
+
+let ownerName = "";
+let guestName = "";
+let ownerAnswers = [];
+let guestAnswers = [];
+let createIndex = 0;
+let playIndex = 0;
+let personalLink = "";
+
+
+// ==================================
+// SCREEN MANAGEMENT
+// ==================================
+
+function showScreen(id) {
+
+    document.querySelectorAll(".screen").forEach(s => {
+        s.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function goHome() {
+    showScreen("home");
+}
+
+function goCreate() {
+    ownerAnswers = new Array(questions.length).fill(null);
+    createIndex = 0;
+    document.getElementById("ownerName").value = "";
+    showScreen("profile");
+}
+
+function goJoin() {
+
+    const hash = location.hash;
+
+    if (!hash.startsWith("#play=")) {
+        alert("Bạn cần mở link quiz cá nhân hợp lệ nhé!");
+        return;
+    }
+
+    loadSharedQuiz();
+}
+
+
+// ==================================
+// PROFILE
+// ==================================
+
+function saveProfile() {
+
+    const name = document.getElementById("ownerName").value.trim();
+
+    if (!name) {
+        alert("Hãy nhập tên của bạn nhé! 💗");
+        return;
+    }
+
+    ownerName = name;
+    createIndex = 0;
+
+    showScreen("create");
+    renderCreate();
+}
+
+
+// ==================================
+// CREATE QUIZ
+// ==================================
+
+function renderCreate() {
+
+    const q = questions[createIndex];
+
+    document.getElementById("createStep").innerText =
+        "QUESTION " + String(createIndex + 1).padStart(2,"0");
+
+    document.getElementById("createCount").innerText =
+        String(createIndex + 1).padStart(2,"0") +
+        " / " + questions.length;
+
+    document.getElementById("createProgress").style.width =
+        ((createIndex + 1) / questions.length * 100) + "%";
+
+    document.getElementById("createIcon").innerText = q.icon;
+    document.getElementById("createQuestion").innerText = q.text;
+
+    const box = document.getElementById("createOptions");
+    box.innerHTML = "";
+
+    q.options.forEach((option,index) => {
+
+        const btn = document.createElement("button");
+
+        btn.className = "option" +
+            (ownerAnswers[createIndex] === index ? " selected" : "");
+
+        btn.innerText = option;
+
+        btn.onclick = () => {
+
+            ownerAnswers[createIndex] = index;
+            renderCreate();
+
+        };
+
+        box.appendChild(btn);
+
+    });
+
+    document.getElementById("nextCreate").innerText =
+        createIndex === questions.length - 1
+        ? "CREATE MY LINK ♡"
+        : "NEXT →";
+}
+
+function nextCreate() {
+
+    if (ownerAnswers[createIndex] === null) {
+        alert("Chọn một đáp án trước nhé! 🌷");
+        return;
+    }
+
+    if (createIndex < questions.length - 1) {
+        createIndex++;
+        renderCreate();
+    } else {
+        generateLink();
+    }
+}
+
+function previousCreate() {
+
+    if (createIndex > 0) {
+        createIndex--;
+        renderCreate();
+    } else {
+        showScreen("profile");
+    }
+}
+
+
+// ==================================
+// SHARE LINK
+// ==================================
+
+// Encode dữ liệu Unicode thành chuỗi an toàn trong URL.
+
+function encodeData(data) {
+
+    const bytes = new TextEncoder().encode(JSON.stringify(data));
+
+    let binary = "";
+
+    bytes.forEach(byte => {
+        binary += String.fromCharCode(byte);
+    });
+
+    return btoa(binary)
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=/g, "");
+}
+
+function decodeData(value) {
+
+    const base64 = value
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
+
+    const padded = base64 + "=".repeat((4 - base64.length % 4) % 4);
+
+    const binary = atob(padded);
+
+    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+
+    return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+function generateLink() {
+
+    const data = {
+        version: 1,
+        name: ownerName,
+        answers: ownerAnswers
+    };
+
+    const encoded = encodeData(data);
+
+    personalLink =
+        location.href.split("#")[0] + "#play=" + encoded;
+
+    document.getElementById("shareName").innerText = ownerName;
+
+    document.getElementById("shareLink").innerText = personalLink;
+
+    showScreen("share");
+}
+
+
+// ==================================
+// COPY LINK
+// ==================================
+
+async function copyLink() {
+
+    try {
+
+        await navigator.clipboard.writeText(personalLink);
+
+    } catch(error) {
+
+        const input = document.createElement("textarea");
+
+        input.value = personalLink;
+
+        document.body.appendChild(input);
+
+        input.select();
+
+        document.execCommand("copy");
+
+        input.remove();
+
+    }
+
+    const message = document.getElementById("copySuccess");
+
+    message.style.display = "block";
+    message.innerText = "✓ Đã copy link thành công!";
+
+}
+
+async function nativeShare() {
+
+    if (navigator.share) {
+
+        try {
+
+            await navigator.share({
+                title: "How Well Do You Know Me?",
+                text: "Làm thử bài test của mình nhé! 💗",
+                url: personalLink
+            });
+
+        } catch(error) {}
+
+    } else {
+
+        copyLink();
+
+    }
+
+}
+
+
+// ==================================
+// LOAD SHARED QUIZ
+// ==================================
+
+function loadSharedQuiz() {
+
+    try {
+
+        const encoded = location.hash.substring(6);
+
+        const data = decodeData(encoded);
+
+        if (
+            data.version !== 1 ||
+            !Array.isArray(data.answers) ||
+            data.answers.length !== questions.length ||
+            data.answers.some((a,i) =>
+                !Number.isInteger(a) ||
+                a < 0 ||
+                a >= questions[i].options.length
+            ) ||
+            typeof data.name !== "string" ||
+            !data.name.trim() ||
+            data.name.length > 60
+        ) {
+            throw new Error("Invalid quiz");
+        }
+
+        ownerName = data.name;
+        ownerAnswers = data.answers;
+
+        document.getElementById("joinTitle").innerText =
+            ownerName + " sent you a quiz!";
+
+        showScreen("join");
+
+    } catch(error) {
+
+        alert("Link không hợp lệ hoặc đã bị lỗi!");
+
+        showScreen("home");
+
+    }
+
+}
+
+
+// ==================================
+// PLAY QUIZ
+// ==================================
+
+function startPlay() {
+
+    const name = document.getElementById("guestName").value.trim();
+
+    if (!name) {
+        alert("Nhập tên của bạn trước nhé!");
+        return;
+    }
+
+    guestName = name;
+    guestAnswers = new Array(questions.length).fill(null);
+    playIndex = 0;
+
+    showScreen("play");
+    renderPlay();
+}
+
+function renderPlay() {
+
+    const q = questions[playIndex];
+
+    document.getElementById("playStep").innerText =
+        "QUESTION " + String(playIndex + 1).padStart(2,"0");
+
+    document.getElementById("playCount").innerText =
+        String(playIndex + 1).padStart(2,"0") +
+        " / " + questions.length;
+
+    document.getElementById("playProgress").style.width =
+        ((playIndex + 1) / questions.length * 100) + "%";
+
+    document.getElementById("playIcon").innerText = q.icon;
+    document.getElementById("playQuestion").innerText = q.text;
+
+    const box = document.getElementById("playOptions");
+    box.innerHTML = "";
+
+    q.options.forEach((option,index) => {
+
+        const btn = document.createElement("button");
+
+        btn.className = "answer-option" +
+            (guestAnswers[playIndex] === index ? " selected" : "");
+
+        const icon = document.createElement("span");
+        icon.className = "option-icon";
+        icon.innerText = "♡";
+
+        const text = document.createElement("span");
+        text.innerText = option;
+
+        btn.appendChild(icon);
+        btn.appendChild(text);
+
+        btn.onclick = () => {
+
+            guestAnswers[playIndex] = index;
+            renderPlay();
+
+        };
+
+        box.appendChild(btn);
+
+    });
+
+    document.getElementById("nextPlay").innerText =
+        playIndex === questions.length - 1
+        ? "SEE MY RESULT ✨"
+        : "NEXT QUESTION →";
+}
+
+function nextPlay() {
+
+    if (guestAnswers[playIndex] === null) {
+        alert("Chọn đáp án trước khi tiếp tục nhé! 💗");
+        return;
+    }
+
+    if (playIndex < questions.length - 1) {
+
+        playIndex++;
+        renderPlay();
+
+    } else {
+
+        calculateResult();
+
+    }
+
+}
+
+
+// ==================================
+// CALCULATE RESULT
+// ==================================
+
+function calculateResult() {
+
+    let correct = 0;
+
+    questions.forEach((q,index) => {
+
+        if (ownerAnswers[index] === guestAnswers[index]) {
+            correct++;
+        }
+
+    });
+
+    const percentage = Math.round(
+        correct / questions.length * 100
+    );
+
+    let icon, title, description;
+
+    if (percentage >= 90) {
+
+        icon = "💞";
+        title = "SOULMATE ENERGY!";
+        description =
+            "Wow! Bạn hiểu " + ownerName +
+            " cực kỳ tốt. Hai người có sự đồng điệu đáng yêu đấy!";
+
+    } else if (percentage >= 70) {
+
+        icon = "🌷";
+        title = "YOU KNOW ME WELL!";
+        description =
+            "Bạn hiểu khá nhiều về " + ownerName +
+            ". Chỉ còn một vài điều nhỏ cần khám phá thôi!";
+
+    } else if (percentage >= 40) {
+
+        icon = "🧸";
+        title = "GETTING CLOSER!";
+        description =
+            "Bạn đã biết một số điều về " + ownerName +
+            ", nhưng vẫn còn nhiều bí mật thú vị đang chờ được khám phá!";
+
+    } else {
+
+        icon = "💌";
+        title = "LET'S KNOW EACH OTHER!";
+        description =
+            "Có vẻ bạn vẫn còn nhiều điều cần tìm hiểu về " +
+            ownerName + ". Đây là cơ hội để hiểu nhau hơn nhé!";
+
+    }
+
+    document.getElementById("resultIcon").innerText = icon;
+    document.getElementById("resultTitle").innerText = title;
+    document.getElementById("resultScore").innerText =
+        percentage + "%";
+
+    document.getElementById("resultDescription").innerText =
+        guestName + " hiểu " + ownerName + " được " +
+        correct + "/" + questions.length + " câu. " + description;
+
+    const detail = document.getElementById("resultDetail");
+    detail.innerHTML = "";
+
+    questions.forEach((q,index) => {
+
+        const row = document.createElement("div");
+        row.className = "detail-row";
+
+        const isCorrect =
+            ownerAnswers[index] === guestAnswers[index];
+
+        const status = isCorrect ? "💗" : "🤍";
+
+        row.innerText =
+            status + " " + q.text +
+            "\nBạn chọn: " + q.options[guestAnswers[index]] +
+            "\nĐáp án của " + ownerName + ": " +
+            q.options[ownerAnswers[index]];
+
+        detail.appendChild(row);
+
+    });
+
+    showScreen("result");
+
+}
+
+
+// ==================================
+// PLAY AGAIN
+// ==================================
+
+function restartPlay() {
+
+    guestAnswers = new Array(questions.length).fill(null);
+    playIndex = 0;
+
+    showScreen("join");
+
+}
+
+
+// ==================================
+// AUTOMATICALLY OPEN SHARED LINK
+// ==================================
+
+window.addEventListener("load", () => {
+
+    if (location.hash.startsWith("#play=")) {
+        loadSharedQuiz();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
